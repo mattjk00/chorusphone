@@ -1,0 +1,45 @@
+body {
+    overflow: hidden;
+    font-family:tahoma;
+}
+#nine {
+    width:100vw;
+    text-align:center;
+    height:50vh;
+    line-height:50vh;
+    background-color:rgb(20, 18, 56);
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+#nine h1 {
+    color:rgb(129, 238, 165);
+    vertical-align:middle;
+}
+
+#one {
+    width:100vw;
+    text-align:center;
+    height:50vh;
+    line-height:50vh;
+    position:fixed;
+    left:0;
+    top:50vh;
+    background-color:rgb(129, 238, 165);
+}
+
+#one h1 {
+    vertical-align:middle;
+    color:rgb(20, 18, 56);
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+  }
