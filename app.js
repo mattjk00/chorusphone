@@ -7,6 +7,8 @@ $(document).ready(function(){
     console.log("welcome...");
     $("#one").hide();
     $("#nine").hide();
+    $("#starttop").click(startClick);
+    $("#startbottom").click(startClick);
 
     var context = new AudioContext();
     StartAudioContext(context, ".startbutton", function() {
@@ -48,8 +50,7 @@ function setup() {
         $(this).css("background-color", "rgb(20, 18, 56)");
     } });
 
-    $("#starttop").click(startClick);
-    $("#startbottom").click(startClick);
+    
 }
 
 function startClick() {
