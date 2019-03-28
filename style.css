@@ -2,7 +2,7 @@ body {
     overflow: hidden;
     font-family:tahoma;
 }
-#nine {
+.tophalf {
     width:100vw;
     text-align:center;
     height:50vh;
@@ -18,7 +18,7 @@ body {
     vertical-align:middle;
 }
 
-#one {
+.bottomhalf {
     width:100vw;
     text-align:center;
     height:50vh;
@@ -32,6 +32,11 @@ body {
 #one h1 {
     vertical-align:middle;
     color:rgb(20, 18, 56);
+}
+
+#starttop, #startbottom {
+    background-color:rgb(202, 50, 50);
+    color:rgb(247, 197, 205);
 }
 
 .noselect {

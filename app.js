@@ -1,13 +1,31 @@
 let synth1 = null;
 // frequencies used
-const lowNoteOne = Tone.Frequency(Tone.Frequency.ftom(697), "midi").toNote();
-const highNoteOne =  Tone.Frequency(Tone.Frequency.ftom(1209), "midi").toNote();
-const lowNoteNine = Tone.Frequency(Tone.Frequency.ftom(852), "midi").toNote();
-const highNoteNine = Tone.Frequency(Tone.Frequency.ftom(1477), "midi").toNote();
+
 let created = false;
 
 $(document).ready(function(){
-    alert("welcome!");
+    console.log("welcome...");
+    $("#one").hide();
+    $("#nine").hide();
+
+    var context = new AudioContext();
+    StartAudioContext(context, ".startbutton", function() {
+        console.log("ready");
+        console.log(context);
+        setup();
+    });
+
+    
+
+    
+});
+
+function setup() {
+    const lowNoteOne = Tone.Frequency(Tone.Frequency.ftom(697), "midi").toNote();
+    const highNoteOne =  Tone.Frequency(Tone.Frequency.ftom(1209), "midi").toNote();
+    const lowNoteNine = Tone.Frequency(Tone.Frequency.ftom(852), "midi").toNote();
+    const highNoteNine = Tone.Frequency(Tone.Frequency.ftom(1477), "midi").toNote();
+
     $("#one").on({"touchstart": function() { 
         createSynth();
         touchStart(lowNoteOne, highNoteOne); 
@@ -29,7 +47,23 @@ $(document).ready(function(){
         touchEnd(lowNoteNine, highNoteNine); 
         $(this).css("background-color", "rgb(20, 18, 56)");
     } });
-});
+
+    $("#starttop").click(startClick);
+    $("#startbottom").click(startClick);
+}
+
+function startClick() {
+    console.log("start");
+    $("#one").show();
+    $("#nine").show();
+    $("#starttop").animate({height:0},500, function() {
+        $(this).hide();
+    });
+    $("#startbottom").animate({top:"+=400px"},500, function() {
+        $(this).hide();
+        $(this).css("top", "0");
+    });
+}
 
 /**
  * Is called when a touch starts
