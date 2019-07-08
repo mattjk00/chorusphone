@@ -1,4 +1,5 @@
 let synth1 = null;
+let volume = null;
 // frequencies used
 
 let created = false;
@@ -16,10 +17,6 @@ $(document).ready(function(){
         console.log(context);
         setup();
     });
-
-    
-
-    
 });
 
 function setup() {
@@ -28,9 +25,9 @@ function setup() {
     const lowNoteNine = Tone.Frequency(Tone.Frequency.ftom(852), "midi").toNote();
     const highNoteNine = Tone.Frequency(Tone.Frequency.ftom(1477), "midi").toNote();
 
-    $("#one").on({"touchstart": function() { 
+    $("#one").on({"touchstart": function(e) { 
         createSynth();
-        touchStart(lowNoteOne, highNoteOne); 
+        touchStart(e, lowNoteOne, highNoteOne); 
         $(this).css("background-color", "rgb(77, 185, 113)");
         
     } });
@@ -39,9 +36,9 @@ function setup() {
         touchEnd(lowNoteOne, highNoteOne); 
         $(this).css("background-color", "rgb(129, 238, 165)");
     } });
-    $("#nine").on({"touchstart": function() {
+    $("#nine").on({"touchstart": function(e) {
         createSynth();
-         touchStart(lowNoteNine, highNoteNine); 
+         touchStart(e, lowNoteNine, highNoteNine); 
          $(this).css("background-color", "rgb(13, 12, 32)");
     } });
     $("#nine").on({"touchend": function() { 
@@ -50,9 +47,13 @@ function setup() {
         $(this).css("background-color", "rgb(20, 18, 56)");
     } });
 
-    
+    $("body").on("touchmove", function(e) {
+        calculateVolume(touchPosition(e).y);
+    });
 }
-
+/**
+ * Used for the start menu
+ */
 function startClick() {
     console.log("start");
     $("#one").show();
@@ -69,7 +70,10 @@ function startClick() {
 /**
  * Is called when a touch starts
  */
-function touchStart(ln, hn) {
+function touchStart(e, ln, hn) {
+    // get the touches position
+    var pos = touchPosition(e);
+    calculateVolume(pos.y);
     synth1.triggerAttack([ln, hn]);
     console.log("start");
 }
@@ -82,8 +86,35 @@ function touchEnd(ln, hn) {
     console.log("end");
 }
 
+/**
+ * Calculates the screen coordinates of a touch
+ * @param {TouchEvent} e 
+ */
+function touchPosition(e) {
+    // the coordinates of the touch
+    var pos = { x:0, y:0 };
+    pos.x = e.originalEvent.touches[0].pageX;
+    pos.y = e.originalEvent.touches[0].pageY;
+    return pos;
+}
+
+function calculateVolume(y) {
+    // for NINE
+    var height = screen.height/2;
+    var amplitude = 1 - y/height;
+    // for ONE
+    if (y > height) {
+        amplitude = 1 - ((y - height)/height);
+    }
+    // convert amp to dB
+    var db = (20 * Math.log10(amplitude));
+    synth1.volume.value = db;
+    console.log(synth1.volume.value);
+}
+
 function createSynth() {
     if (!created) {
+        volume = new Tone.Volume(-16);
         synth1 = new Tone.PolySynth(2, Tone.Synth).toMaster();
         synth1.set("oscillator", {
             type: 'sine',
@@ -100,6 +131,7 @@ function createSynth() {
         synth1.set({"filter" : {
             "type" : "lowpass"
         }});
+        //synth1.chain(volume, Tone.Master);
         created = true;
     }
 }
