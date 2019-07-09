@@ -39,7 +39,8 @@ function setup() {
     $("#nine").on({"touchstart": function(e) {
         createSynth();
          touchStart(e, lowNoteNine, highNoteNine); 
-         $(this).css("background-color", "rgb(13, 12, 32)");
+         //$(this).css("background-color", "rgb(13, 12, 32)");
+         
     } });
     $("#nine").on({"touchend": function() { 
         createSynth();
@@ -49,6 +50,7 @@ function setup() {
 
     $("body").on("touchmove", function(e) {
         calculateVolume(touchPosition(e).y);
+        //$(this).css("background-image", "linear-gradient(rgb(20, 18, 56) 1%, white 99%)");
     });
 }
 /**
@@ -108,7 +110,8 @@ function calculateVolume(y) {
     }
     // convert amp to dB
     var db = (20 * Math.log10(amplitude));
-    synth1.volume.value = db;
+    synth1.volume.value = 0.5 + (db / 2);
+    
     console.log(synth1.volume.value);
 }
 

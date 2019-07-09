@@ -8,6 +8,7 @@ body {
     height:50vh;
     line-height:50vh;
     background-color:rgb(20, 18, 56);
+    
     position:absolute;
     left:0;
     top:0;
@@ -37,6 +38,7 @@ body {
 #starttop, #startbottom {
     background-color:rgb(34, 6, 6);
     color:rgb(247, 197, 205);
+    z-index: 1;
 }
 
 .noselect {
