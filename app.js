@@ -1,5 +1,7 @@
 let synth1 = null;
 let volume = null;
+let nineDown = false;
+let oneDown = false;
 // frequencies used
 
 let created = false;
@@ -29,23 +31,25 @@ function setup() {
         createSynth();
         touchStart(e, lowNoteOne, highNoteOne); 
         $(this).css("background-color", "rgb(77, 185, 113)");
-        
+        oneDown = true;
     } });
     $("#one").on({"touchend": function() { 
         createSynth();
         touchEnd(lowNoteOne, highNoteOne); 
         $(this).css("background-color", "rgb(129, 238, 165)");
+        oneDown = false;
     } });
     $("#nine").on({"touchstart": function(e) {
         createSynth();
          touchStart(e, lowNoteNine, highNoteNine); 
-         //$(this).css("background-color", "rgb(13, 12, 32)");
-         
+         $(this).css("background-color", "rgb(13, 12, 32)");
+         nineDown = true;
     } });
     $("#nine").on({"touchend": function() { 
         createSynth();
         touchEnd(lowNoteNine, highNoteNine); 
         $(this).css("background-color", "rgb(20, 18, 56)");
+        nineDown = false;
     } });
 
     $("body").on("touchmove", function(e) {
@@ -110,7 +114,7 @@ function calculateVolume(y) {
     }
     // convert amp to dB
     var db = (20 * Math.log10(amplitude));
-    synth1.volume.value = 0.5 + (db / 2);
+    synth1.volume.value = 1 + (db * 1.5);
     
     console.log(synth1.volume.value);
 }
