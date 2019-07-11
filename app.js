@@ -1,5 +1,4 @@
 let synth1 = null;
-let volume = null;
 let nineDown = false;
 let oneDown = false;
 // frequencies used
@@ -29,7 +28,9 @@ function setup() {
 
     $("#one").on({"touchstart": function(e) { 
         createSynth();
-        touchStart(e, lowNoteOne, highNoteOne); 
+        if (!nineDown) {
+            touchStart(e, lowNoteOne, highNoteOne); 
+        }
         $(this).css("background-color", "rgb(77, 185, 113)");
         oneDown = true;
     } });
@@ -41,9 +42,11 @@ function setup() {
     } });
     $("#nine").on({"touchstart": function(e) {
         createSynth();
-         touchStart(e, lowNoteNine, highNoteNine); 
-         $(this).css("background-color", "rgb(13, 12, 32)");
-         nineDown = true;
+        if (!oneDown) {
+            touchStart(e, lowNoteNine, highNoteNine); 
+        }
+        $(this).css("background-color", "rgb(13, 12, 32)");
+        nineDown = true;
     } });
     $("#nine").on({"touchend": function() { 
         createSynth();
@@ -53,8 +56,10 @@ function setup() {
     } });
 
     $("body").on("touchmove", function(e) {
-        calculateVolume(touchPosition(e).y);
-        //$(this).css("background-image", "linear-gradient(rgb(20, 18, 56) 1%, white 99%)");
+        var y = touchPosition(e).y;
+        if ((nineDown && y < screen.height/2) || (oneDown && y >= screen.height/2)) {
+            calculateVolume(y);
+        }
     });
 }
 /**
@@ -121,7 +126,6 @@ function calculateVolume(y) {
 
 function createSynth() {
     if (!created) {
-        volume = new Tone.Volume(-16);
         synth1 = new Tone.PolySynth(2, Tone.Synth).toMaster();
         synth1.set("oscillator", {
             type: 'sine',
@@ -138,7 +142,6 @@ function createSynth() {
         synth1.set({"filter" : {
             "type" : "lowpass"
         }});
-        //synth1.chain(volume, Tone.Master);
         created = true;
     }
 }
