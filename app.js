@@ -31,7 +31,7 @@ function setup() {
         if (!nineDown) {
             touchStart(e, lowNoteOne, highNoteOne); 
         }
-        $(this).css("background-color", "rgb(77, 185, 113)");
+        adjustOneColor();
         oneDown = true;
     } });
     $("#one").on({"touchend": function() { 
@@ -45,7 +45,7 @@ function setup() {
         if (!oneDown) {
             touchStart(e, lowNoteNine, highNoteNine); 
         }
-        $(this).css("background-color", "rgb(13, 12, 32)");
+        adjustNineColor();
         nineDown = true;
     } });
     $("#nine").on({"touchend": function() { 
@@ -60,8 +60,24 @@ function setup() {
         if ((nineDown && y < screen.height/2) || (oneDown && y >= screen.height/2)) {
             calculateVolume(y);
         }
+        if (oneDown) {
+            adjustOneColor();
+        }
+        if (nineDown) {
+            adjustNineColor();
+        }
     });
 }
+
+function adjustOneColor() {
+    $("#one").css("background-color", "rgb(" + (0 + (-10 * synth1.volume.value)) + ", 185, 113)");
+}
+
+function adjustNineColor() {
+    $("#nine").css("background-color", "rgb(" + (100 + (10 * synth1.volume.value)) + ", 12, 32)");
+    
+}
+
 /**
  * Used for the start menu
  */
